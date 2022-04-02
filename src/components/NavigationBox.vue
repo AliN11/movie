@@ -26,8 +26,7 @@ const load = (page: number) => {
 
 const resultsRange = computed(() => {
   const start = (props.page - 1) * 20 + 1;
-  const remainder = props.moviesLength % 20;
-  const end = props.page * 20 - remainder;
+  const end = start + props.moviesLength - 1;
 
   return `${start}-${end}`;
 });
