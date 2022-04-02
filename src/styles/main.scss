@@ -1,0 +1,11 @@
+@import './variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import './fontello.css';
+@import '@vuepic/vue-datepicker/dist/main.css';
+
+.btn {
+  border-radius: 20px;
+}
+.btn-primary {
+  color: #fff;
+}

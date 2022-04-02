@@ -1,0 +1,56 @@
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { computed } from '@vue/reactivity';
+import SearchBox from '@/components/SearchBox.vue';
+import MovieCard from '@/components/MovieCard.vue';
+import NavigationBox from '@/components/NavigationBox.vue';
+import Loading from '@/components/Loading.vue';
+
+const store = useStore();
+const data = computed(() => store.getters['movies/movies']);
+const page = computed(() => store.getters['movies/filters'].page);
+
+const setDates = (start: string, end: string) => {
+  store.commit('movies/setDates', { start, end });
+};
+
+const setPage = (value: number) => {
+  store.commit('movies/setPage', value);
+};
+
+const getMovies = () => {
+  store.dispatch('movies/getHomeMovies');
+};
+
+onMounted(() => {
+  getMovies();
+});
+</script>
+
+<template>
+  <search-box @set-dates="setDates" @set-page="setPage" @get-movies="getMovies" />
+  <div class="container">
+    <div class="row">
+      <template v-if="data.loading === false">
+        <div v-for="(movie, index) in data.results" :key="index" class="col-md-4 gx-5 mb-5">
+          <movie-card :movie="movie" />
+        </div>
+        <navigation-box
+          :page="page"
+          :total-pages="data.totalPages"
+          :movies-length="data.results.length"
+          @set-page="setPage"
+          @get-movies="getMovies"
+        />
+      </template>
+      <Loading v-else />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.container {
+  margin-top: 120px;
+}
+</style>
