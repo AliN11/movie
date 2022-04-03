@@ -1,6 +1,6 @@
 export type MovieFilter = {
-  page: number;
-  dates: { start: Date; end: Date };
+  page?: number;
+  dates?: { start: Date; end: Date };
 };
 
 export type CastMember = {
