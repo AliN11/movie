@@ -11,14 +11,6 @@ const store = useStore();
 const data = computed(() => store.getters['movies/movies']);
 const page = computed(() => store.getters['movies/filters'].page);
 
-const setDates = (start: string, end: string) => {
-  store.commit('movies/setDates', { start, end });
-};
-
-const setPage = (value: number) => {
-  store.commit('movies/setPage', value);
-};
-
 const getMovies = () => {
   store.dispatch('movies/getHomeMovies');
 };
@@ -29,7 +21,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <search-box @set-dates="setDates" @set-page="setPage" @get-movies="getMovies" />
+  <search-box @get-movies="getMovies" />
   <div class="container">
     <div class="row">
       <template v-if="data.loading === false">
@@ -40,7 +32,6 @@ onMounted(() => {
           :page="page"
           :total-pages="data.totalPages"
           :movies-length="data.results.length"
-          @set-page="setPage"
           @get-movies="getMovies"
         />
       </template>

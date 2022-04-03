@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import { dateFormatter } from '@/helpers';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const emit = defineEmits(['setDates', 'getMovies', 'setPage']);
 const storedDates = store.getters['movies/filters'].dates;
-const dates = ref([storedDates.start, storedDates.end]);
+const dates = ref<[Date, Date]>([storedDates.start, storedDates.end]);
+const emit = defineEmits(['getMovies']);
 
 const format = (dates: [Date, Date]) => {
   if (dates[0] !== undefined && dates[1] === undefined) {
@@ -17,19 +17,10 @@ const format = (dates: [Date, Date]) => {
   return `${dateFormatter(dates[0])} - ${dateFormatter(dates[1])}`;
 };
 
-watch(
-  () => dates.value,
-  (dates) => {
-    if (Array.isArray(dates)) {
-      emit('setDates', ...dates);
-    } else {
-      emit('setDates', '', '');
-    }
-  }
-);
-
 const search = () => {
-  emit('setPage', 1);
+  const [start = '', end = ''] = dates.value ?? [];
+  store.commit('movies/setDates', { start, end });
+  store.commit('movies/setPage', 1);
   emit('getMovies');
 };
 </script>

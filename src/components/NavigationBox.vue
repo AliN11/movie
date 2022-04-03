@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from '@vue/reactivity';
+import { useStore } from 'vuex';
 
 const props = defineProps({
   page: {
@@ -16,12 +17,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['setPage', 'getMovies']);
+const store = useStore();
+const emit = defineEmits(['getMovies']);
 
 const load = (page: number) => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  emit('setPage', page);
+  store.commit('movies/setPage', page);
   emit('getMovies');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 const resultsRange = computed(() => {
