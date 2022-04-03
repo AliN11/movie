@@ -18,11 +18,10 @@ const props = defineProps({
 });
 
 const store = useStore();
-const emit = defineEmits(['getMovies']);
 
 const load = (page: number) => {
   store.commit('movies/setPage', page);
-  emit('getMovies');
+  store.dispatch('movies/getHomeMovies');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 

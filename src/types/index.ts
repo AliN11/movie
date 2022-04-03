@@ -13,11 +13,23 @@ export type Genre = {
   name: string;
 };
 
-export type Movie = {
+export type DatesRange = [Date, Date];
+
+export type MovieInList = {
   id: number;
   title: string;
   poster_path: string;
   release_date: string;
+  genre_ids: number[];
+  overview: string;
+  vote_average: number;
+  vote_count: number;
+};
+
+export type Movie = MovieInList & {
+  genres: Genre[];
+  imdb_id: string;
+  homepage: string;
   credits: {
     cast: CastMember[];
   };
@@ -25,10 +37,4 @@ export type Movie = {
   budget: number;
   revenue: number;
   runtime: number;
-  genres: Genre[];
-  overview: string;
-  imdb_id: string;
-  homepage: string;
-  vote_average: number;
-  vote_count: number;
 };

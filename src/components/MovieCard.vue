@@ -3,15 +3,11 @@ import { useStore } from 'vuex';
 import { computed } from '@vue/reactivity';
 import { prettifyGenres } from '@/helpers';
 import MoviePoster from '@/components/MoviePoster.vue';
+import { MovieInList } from '@/types';
 
 const store = useStore();
 
-const props = defineProps({
-  movie: {
-    type: Object,
-    required: true,
-  },
-});
+const props = defineProps<{ movie: MovieInList }>();
 
 const movie = computed(() => props.movie);
 const totalGenres = store.getters['genres/genres'];

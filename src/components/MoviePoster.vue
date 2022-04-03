@@ -10,7 +10,7 @@ const sizes = {
 };
 
 interface Props {
-  image: string;
+  image: string | null;
   alt?: string;
   size: keyof typeof sizes;
 }

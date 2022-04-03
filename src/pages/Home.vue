@@ -8,32 +8,23 @@ import NavigationBox from '@/components/NavigationBox.vue';
 import Loading from '@/components/Loading.vue';
 
 const store = useStore();
-const data = computed(() => store.getters['movies/movies']);
+const movies = computed(() => store.getters['movies/movies']);
 const page = computed(() => store.getters['movies/filters'].page);
 
-const getMovies = () => {
-  store.dispatch('movies/getHomeMovies');
-};
-
 onMounted(() => {
-  getMovies();
+  store.dispatch('movies/getHomeMovies');
 });
 </script>
 
 <template>
-  <search-box @get-movies="getMovies" />
+  <search-box />
   <div class="container">
     <div class="row">
-      <template v-if="data.loading === false">
-        <div v-for="(movie, index) in data.results" :key="index" class="col-md-4 gx-5 mb-5">
+      <template v-if="movies.loading === false">
+        <div v-for="(movie, index) in movies.results" :key="index" class="col-md-4 gx-5 mb-5">
           <movie-card :movie="movie" />
         </div>
-        <navigation-box
-          :page="page"
-          :total-pages="data.totalPages"
-          :movies-length="data.results.length"
-          @get-movies="getMovies"
-        />
+        <navigation-box :page="page" :total-pages="movies.totalPages" :movies-length="movies.results.length" />
       </template>
       <Loading v-else />
     </div>
